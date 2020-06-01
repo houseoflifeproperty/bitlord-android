@@ -1,0 +1,1 @@
+BitLord, libtorrent-ə əsaslanan, Android 4+ üçün Azad bir torrent müştərisidir. Faylları birbaşa cihazınıza endirin və paylaşın

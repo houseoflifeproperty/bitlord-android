@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/open_article_menu"
+        app:showAsAction="never"
+        android:title="@string/feed_item_open_article_url" />
+
+    <item android:id="@+id/mark_as_read_menu"
+        app:showAsAction="never"
+        android:title="@string/mark_as_read" />
+
+    <item android:id="@+id/mark_as_unread_menu"
+        app:showAsAction="never"
+        android:title="@string/mark_as_unread" />
+</menu>

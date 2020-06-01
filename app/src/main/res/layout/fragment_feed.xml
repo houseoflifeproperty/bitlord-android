@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <org.proninyaroslav.libretorrent.ui.customviews.ThemedSwipeRefreshLayout
+            android:id="@+id/swipe_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <org.proninyaroslav.libretorrent.ui.customviews.EmptyRecyclerView
+                android:id="@+id/feed_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="@{@dimen/fab_size + @dimen/fab_margin}"
+                android:clipToPadding="false"
+                android:scrollbars="vertical"
+                android:focusable="true"
+                android:scrollbarStyle="outsideOverlay" /> <!-- Need for padding -->
+        </org.proninyaroslav.libretorrent.ui.customviews.ThemedSwipeRefreshLayout>
+
+        <TextView
+            android:id="@+id/empty_view_feeds"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/feed_channel_list_empty"
+            style="@style/EmptyView" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add_channel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:layout_margin="@dimen/fab_margin"
+            app:srcCompat="@drawable/ic_add_36dp"
+            android:focusable="true" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

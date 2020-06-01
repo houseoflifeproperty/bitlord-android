@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+        android:key="AppearanceSettingsFragment"
+        android:title="@string/pref_header_appearance"
+        android:persistent="false" />
+
+    <Preference
+        android:key="BehaviorSettingsFragment"
+        android:title="@string/pref_header_behavior"
+        android:persistent="false" />
+
+    <Preference
+        android:key="NetworkSettingsFragment"
+        android:title="@string/pref_header_network"
+        android:persistent="false" />
+
+    <Preference
+        android:key="StorageSettingsFragment"
+        android:title="@string/pref_header_storage"
+        android:persistent="false" />
+
+    <Preference
+        android:key="LimitationsSettingsFragment"
+        android:title="@string/pref_header_limitations"
+        android:persistent="false" />
+
+    <Preference
+        android:key="SchedulingSettingsFragment"
+        android:title="@string/pref_header_scheduling"
+        android:persistent="false" />
+
+    <Preference
+        android:key="FeedSettingsFragment"
+        android:title="@string/pref_header_feed"
+        android:persistent="false" />
+
+    <Preference
+        android:key="StreamingSettingsFragment"
+        android:title="@string/pref_header_streaming"
+        android:persistent="false" />
+</PreferenceScreen>

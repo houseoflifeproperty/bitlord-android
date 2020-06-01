@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/play_file_menu"
+        android:icon="@drawable/ic_play_arrow_white_24dp"
+        android:title="@string/play_media_file"
+        app:showAsAction="ifRoom" />
+
+    <item android:id="@+id/change_priority_menu"
+        app:showAsAction="ifRoom"
+        android:title="@string/change_priority" />
+
+    <item android:id="@+id/open_file_system_menu"
+        app:showAsAction="ifRoom"
+        android:title="@string/open_file" />
+
+    <item android:id="@+id/share_stream_url_menu"
+        app:showAsAction="ifRoom"
+        android:title="@string/share_stream_url" />
+</menu>

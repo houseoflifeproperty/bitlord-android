@@ -1,0 +1,196 @@
+apply plugin: 'com.android.application'
+
+android {
+    packagingOptions {
+        pickFirst 'lib/armeabi-v7a/libc++_shared.so'
+        pickFirst 'lib/armeabi/libc++_shared.so'
+        pickFirst 'lib/arm64-v8a/libc++_shared.so'
+        pickFirst 'lib/x86/libc++_shared.so'
+        pickFirst 'lib/x86_64/libc++_shared.so'
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+    dexOptions {
+        maxProcessCount 8
+        javaMaxHeapSize "4g"
+        preDexLibraries true
+    }
+
+    flavorDimensions "abi"
+
+    lintOptions {
+        abortOnError false
+        disable 'MissingTranslation', 'ExtraTranslation'
+    }
+
+    signingConfigs {
+        release {
+            storeFile file('C:\\Projects\\upload-keystore.jks')
+            storePassword 'kosh110190'
+            keyAlias = 'upload'
+            keyPassword 'kosh543'
+        }
+    }
+    compileSdkVersion 29
+    defaultConfig {
+        applicationId "com.houseoflife.bitlord"
+        minSdkVersion 17
+        targetSdkVersion 29
+        versionCode 17
+        /*
+         * Convection:
+         *  major.minor.[revision][-some_info]
+         */
+        versionName "0.9"
+        vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+
+        ndk {
+            abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
+        }
+
+        signingConfig signingConfigs.release
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
+    }
+
+    /* Enable or disable logging in build types */
+    def SESSION_LOGGING = "SESSION_LOGGING"
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            buildConfigField("boolean", SESSION_LOGGING, "false")
+        }
+
+        debug {
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-DEBUG"
+            testCoverageEnabled true
+            debuggable true
+
+            buildConfigField("boolean", SESSION_LOGGING, "true")
+        }
+    }
+
+    splits {
+        abi {
+            enable true
+            reset()
+            include 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
+            universalApk true
+        }
+    }
+    project.ext.versionCodes = ['armeabi-v7a': 1, 'arm64-v8a': 2, 'x86': 3, 'x86_64': 4]
+    android.applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            output.versionCodeOverride =
+                    project.ext.versionCodes.get(output.getFilter(com.android.build.OutputFile.ABI), 0) * 1000000 + android.defaultConfig.versionCode
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+    testOptions.unitTests.includeAndroidResources = true
+
+    sourceSets {
+        androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+}
+
+tasks.withType(Test) {
+    testLogging {
+        exceptionFormat "full"
+        events "started", "skipped", "passed", "failed"
+        showStandardStreams true
+    }
+}
+
+def LIBTORRENT4J_VERSION='1.2.3.0'
+def ROOM_VERSION = "2.2.5"
+def ACRA_VERSION = "5.5.0"
+def DAGGER_VERSION = "2.27"
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    /* Testing */
+    testImplementation "junit:junit:4.13"
+    testImplementation "org.robolectric:robolectric:4.3.1"
+    androidTestImplementation "androidx.test.ext:junit:1.1.1"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.2.0"
+    androidTestImplementation "androidx.test:rules:1.2.0"
+    androidTestImplementation "androidx.room:room-testing:$ROOM_VERSION"
+    androidTestImplementation "com.google.dagger:dagger:$DAGGER_VERSION"
+    testAnnotationProcessor "com.google.auto.service:auto-service:1.0-rc6"
+
+    /* AndroidX libraries */
+    implementation "androidx.appcompat:appcompat:1.1.0"
+    implementation "androidx.constraintlayout:constraintlayout:2.0.0-beta4"
+    implementation "androidx.recyclerview:recyclerview:1.1.0"
+    implementation "androidx.recyclerview:recyclerview-selection:1.1.0-rc01"
+    implementation "com.google.android.material:material:1.2.0-alpha06"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-rc01"
+    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
+    implementation "androidx.room:room-runtime:$ROOM_VERSION"
+    implementation "androidx.room:room-rxjava2:$ROOM_VERSION"
+    annotationProcessor "androidx.room:room-compiler:$ROOM_VERSION" /* For schemas import */
+    implementation "androidx.work:work-runtime:2.3.4"
+    implementation "androidx.multidex:multidex:2.0.1"
+    implementation "androidx.paging:paging-runtime:2.1.2"
+
+    /* ReactiveX */
+    implementation "io.reactivex.rxjava2:rxjava:2.2.9"
+    implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
+
+    /* ACRA */
+    implementation "ch.acra:acra-mail:$ACRA_VERSION"
+    implementation "ch.acra:acra-dialog:$ACRA_VERSION"
+
+    /* libtorrent wrapper */
+    implementation "org.libtorrent4j:libtorrent4j:$LIBTORRENT4J_VERSION"
+    implementation "org.libtorrent4j:libtorrent4j-android-arm:$LIBTORRENT4J_VERSION"
+    implementation "org.libtorrent4j:libtorrent4j-android-arm64:$LIBTORRENT4J_VERSION"
+    implementation "org.libtorrent4j:libtorrent4j-android-x86:$LIBTORRENT4J_VERSION"
+    implementation "org.libtorrent4j:libtorrent4j-android-x86_64:$LIBTORRENT4J_VERSION"
+
+    /* Other */
+    implementation "net.cachapa.expandablelayout:expandablelayout:2.9.2"
+    implementation "com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:1.0.0"
+    implementation "com.github.anthonynsimon:jurl:v0.4.2"
+    implementation "com.jaredrummler:colorpicker:1.1.0"
+    /* Don't use Commons IO >= 2.6, because they uses Java NIO, supported only from API 26 */
+    implementation "commons-io:commons-io:2.5"
+    implementation "com.google.code.gson:gson:2.8.6"
+    implementation "com.takisoft.preferencex:preferencex:1.1.0"
+    implementation "com.leinardi.android:speed-dial:3.1.1"
+    implementation "net.java.dev.jna:jna:5.5.0@aar"
+
+    /* libvlc */
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'org.videolan.android:libvlc-all:3.3.0-eap02'
+
+    implementation project(':vlc-android')
+}
